@@ -1,37 +1,21 @@
-import { join, BufReader, parse } from '../deps.ts'
+import { CsvFileReader } from './CsvFileReader.ts'
 
-interface Game {
-  [key: string]: string
-}
-
-async function loadData() {
-  const path = join('.', 'data.csv')
-  const file = await Deno.open(path)
-  const data = await parse(new BufReader(file), {
-    header: [
-      'date',
-      'home',
-      'away',
-      'score_home',
-      'score_away',
-      'winner',
-      'referee'
-    ]
-  })
-
-  Deno.close(file.rid)
-
-  return data
+enum MatchResult {
+  HomeWin = 'H',
+  AwayWin = 'A',
+  Draw = 'D'
 }
 
 async function numWinsBy(name: string) {
-  const data = await loadData()
-  const filtered = (data as Game[]).filter(
+  const reader = new CsvFileReader('data.csv')
+  await reader.read()
+  const filtered = reader.data.filter(
     game =>
-      (game.home === name && game.winner === 'H') ||
-      (game.away === name && game.winner === 'A')
+      (game.home === name && game.winner === MatchResult.HomeWin) ||
+      (game.away === name && game.winner === MatchResult.AwayWin)
   )
-  return filtered.length
+
+  console.log(`${name} won ${filtered.length} games`)
 }
 
-console.log(`Man United won ${await numWinsBy('Man United')} games`)
+await numWinsBy('Arsenal')
