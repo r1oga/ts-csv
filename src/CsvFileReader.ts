@@ -1,11 +1,11 @@
 import { join, BufReader, parse } from '../deps.ts'
 
 interface Data {
-  [key: string]: any
+  [key: string]: string
 }
 
-export class CsvFileReader {
-  data: Data[] = []
+export abstract class CsvFileReader<T> {
+  data: T[] = []
 
   constructor(public filename: string) {}
 
@@ -16,8 +16,10 @@ export class CsvFileReader {
       header: headers
     })
 
-    this.data = data as Data[]
+    this.data = data.map((data: any) => this.parse(data))
 
     Deno.close(file.rid)
   }
+
+  abstract parse(data: Data): T
 }
