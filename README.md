@@ -1,6 +1,6 @@
-# Sorter
+# Football
 
-Sort list of numbers, a string or a linked list with a [bubble sort](https://en.wikipedia.org/wiki/Bubble_sort) algorithm.
+Load, parse and filter a csv file.
 
 # Requirements
 
