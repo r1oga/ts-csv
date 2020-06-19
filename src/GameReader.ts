@@ -1,12 +1,16 @@
-import { CsvFileReader } from './CsvFileReader.ts'
-import { dateStringToDate } from './utils.ts'
 import { GameResult } from './GameResult.ts'
+import { dateStringToDate } from './utils.ts'
 
 interface Data {
   [key: string]: string
 }
 
-interface Game {
+interface DataReader {
+  read(readers: string[]): void
+  data: Data[]
+}
+
+export interface Game {
   home: string
   away: string
   winner: GameResult
@@ -16,16 +20,35 @@ interface Game {
   referee: string
 }
 
-export class GameReader extends CsvFileReader<Game> {
-  parse(game: Data): Game {
-    return {
-      home: game.home,
-      away: game.away,
-      winner: game.winner as GameResult,
-      referee: game.referee,
-      date: dateStringToDate(game.date),
-      score_home: +game.score_home,
-      score_away: +game.score_away
-    }
+export class GameReader {
+  games: Game[] = []
+
+  constructor(public reader: DataReader) {}
+
+  async load(headers: string[]) {
+    await this.reader.read(headers)
+    this.games = this.reader.data.map(
+      (game: Data): Game => {
+        return {
+          home: game.home,
+          away: game.away,
+          winner: game.winner as GameResult,
+          referee: game.referee,
+          date: dateStringToDate(game.date),
+          score_home: +game.score_home,
+          score_away: +game.score_away
+        }
+      }
+    )
   }
 }
+
+// return {
+//   home: game.home,
+//   away: game.away,
+//   winner: game.winner as GameResult,
+//   referee: game.referee,
+//   date: dateStringToDate(game.date),
+//   score_home: +game.score_home,
+//   score_away: +game.score_away
+// }
