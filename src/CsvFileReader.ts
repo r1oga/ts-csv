@@ -1,7 +1,7 @@
 import { join, BufReader, parse } from '../deps.ts'
 
 interface Data {
-  [key: string]: string
+  [key: string]: any
 }
 
 export class CsvFileReader {
@@ -9,19 +9,11 @@ export class CsvFileReader {
 
   constructor(public filename: string) {}
 
-  async read() {
+  async read(headers: string[]) {
     const path = join('.', this.filename)
     const file = await Deno.open(path)
     const data = await parse(new BufReader(file), {
-      header: [
-        'date',
-        'home',
-        'away',
-        'score_home',
-        'score_away',
-        'winner',
-        'referee'
-      ]
+      header: headers
     })
 
     this.data = data as Data[]
