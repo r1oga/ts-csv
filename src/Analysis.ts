@@ -1,7 +1,7 @@
 import { Analyzer, Game } from './interfaces.ts'
 import { GameResult } from './GameResult.ts'
 
-export class WinsAnalysis implements Analyzer {
+export class Wins implements Analyzer {
   constructor(public name: string) {}
 
   run(games: Game[]): string {
@@ -11,5 +11,14 @@ export class WinsAnalysis implements Analyzer {
         (game.away === this.name && game.winner === GameResult.AwayWin)
     )
     return `${this.name} won ${filtered.length} games`
+  }
+}
+
+export class AverageGoals implements Analyzer {
+  constructor(public name: string) {}
+
+  run(games: Game[]): string {
+    // TODO
+    return 'todo'
   }
 }
