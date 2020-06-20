@@ -1,8 +1,5 @@
 import { join, BufReader, parse } from './deps.ts'
-
-interface Data {
-  [key: string]: string
-}
+import { Data } from './interfaces.ts'
 
 export class CsvFileReader {
   data: Data[] = []

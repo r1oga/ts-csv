@@ -1,24 +1,6 @@
 import { GameResult } from './GameResult.ts'
 import { dateStringToDate } from './utils.ts'
-
-interface Data {
-  [key: string]: string
-}
-
-interface DataReader {
-  read(readers: string[]): void
-  data: Data[]
-}
-
-export interface Game {
-  home: string
-  away: string
-  winner: GameResult
-  date: Date
-  score_away: number
-  score_home: number
-  referee: string
-}
+import { Game, Data, DataReader } from './interfaces.ts'
 
 export class GameReader {
   games: Game[] = []
