@@ -22,6 +22,10 @@ export class CsvFileReader {
 export class GameReader {
   games: Game[] = []
 
+  static fromCsv(filename: string): GameReader {
+    return new GameReader(new CsvFileReader(filename))
+  }
+
   constructor(public reader: DataReader) {}
 
   async load(headers: string[]) {

@@ -1,6 +1,6 @@
 import { Analyzer, Game } from './interfaces.ts'
 import { GameResult } from './GameResult.ts'
-import * as _ from 'https://deno.land/x/lodash@4.17.15-es/lodash.js'
+// import * as _ from 'https://deno.land/x/lodash@4.17.15-es/lodash.js'
 
 export class Wins implements Analyzer {
   constructor(public name: string) {}
