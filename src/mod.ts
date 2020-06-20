@@ -1,7 +1,7 @@
 import { CsvFileReader, GameReader } from './Reader.ts'
 import { Summary } from './Summary.ts'
 import { Wins } from './Analysis.ts'
-import { ConsoleReport } from './Report.ts'
+import { ConsoleReport, HtmlReport } from './Report.ts'
 
 const gameReader = new GameReader(new CsvFileReader('data.csv'))
 const headers = [
@@ -15,6 +15,7 @@ const headers = [
 ]
 
 await gameReader.load(headers)
-const summaryWins = new Summary(new Wins('Arsenal'), new ConsoleReport())
+// const summary = new Summary(new Wins('Arsenal'), new ConsoleReport())
+const summary = new Summary(new Wins('Arsenal'), new HtmlReport())
 
-summaryWins.buildAndPrint(gameReader.games)
+summary.buildAndPrint(gameReader.games)
